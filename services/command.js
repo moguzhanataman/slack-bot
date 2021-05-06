@@ -7,7 +7,7 @@ class CommandService {
   /**
    * Given command name, returns command model
    * @param {string} commandName
-   * @returns {Command}
+   * @returns {Future<Command>}
    */
   async getCommandByName(commandName) {
     const commandResult = await db.query(

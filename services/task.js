@@ -7,7 +7,7 @@ class TaskService {
   /**
    * Creates new task, return it
    * @param {Task} taskModel - The task we want to add to database
-   * @returns {Task} created task
+   * @returns {Future<Task>} created task
    */
   async createTask(taskModel) {
     try {

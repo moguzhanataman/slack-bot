@@ -29,7 +29,7 @@ Examples:
 
 ### Commands
 
-Slack "slash" commands that has side effects (eg. /running, /biking but not /leaderboard, we don't need to hold information about users calling leaderboard). The reason I'm using "numeric" data type for factor is PostgreSQL documentation (https://www.postgresql.org/docs/9.3/datatype-numeric.html section 8.1.2 recommends numeric type where exactness required, if performance would be an issue double can be used) NOTE: Commands have timestamp which omitted in following table for brewity.
+Slack "slash" commands that has side effects (eg. /running, /biking but not /leaderboard, we don't need to hold information about users calling leaderboard). The reason I'm using "numeric" data type for factor is PostgreSQL documentation (https://www.postgresql.org/docs/9.3/datatype-numeric.html section 8.1.2 recommends numeric type where exactness required, if performance would be an issue double can be used)
 
 | id (PK int) | name (string) | factor ( numeric (6, 2) ) |
 | ----------- | ------------- | ------------------------- |
@@ -81,4 +81,25 @@ ORDER BY
 
 -- top 3 users
 LIMIT 3
+```
+
+#### SQL Queries
+
+Base query
+
+```sql
+SELECT
+users.name,
+commands.name,
+value,
+factor
+-- 	sum(factor * value) AS total_points
+
+FROM tasks
+INNER JOIN commands ON commands.id = tasks.command_id
+INNER JOIN users ON (tasks.user_id = users.id)
+WHERE tasks.created_at >= (NOW() - INTERVAL '300 minutes')
+-- GROUP BY users.name, commands.name
+-- ORDER BY total_points DESC
+-- LIMIT 6
 ```

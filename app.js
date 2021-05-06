@@ -14,6 +14,10 @@ app.post("/", (req, res) => {
   }
 });
 
+// Add some data
+app.get('/add', (req, res) => {
+})
+
 app.use("/slack/commands", slackCommands);
 
 // error handler
@@ -26,5 +30,6 @@ app.use(function (err, req, res, next) {
   res.json({ error: err.message });
   console.error(err.message, err.stack);
 });
+42
 
 module.exports = app;
