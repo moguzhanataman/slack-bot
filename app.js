@@ -4,15 +4,12 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
-const slackUtils = require("./utils/slack-utils.js");
-const { slackSlashCommandHandler } = require("./slack-commands/index.js");
-slackUtils.init();
-const slackEvents = slackUtils.getSlackEvents();
+const { slackEvents } = require("./utils/slack-utils.js");
 
 const slackCommands = require("./slack-commands");
 
 const app = express();
+require("./utils/db");
 
 // Attach the adapter to the Express application as a middleware
 app.use("/slack/actions", slackEvents.expressMiddleware());

@@ -1,14 +1,18 @@
 # General Design Document
 
-Sketching rough ideas
+Design decisions about API, Database and Business Logic.
 
 ## API
 
-Create a new task for user with value
-PUT /tasks/running { user_id, value }
-PUT /tasks/biking { user_id, value }
+### Public API
 
+This API is for interacting with slack.
+
+POST /tasks/running { user_id, value }
+POST /tasks/biking { user_id, value }
 GET /leaderboards
+
+### Private API
 
 ## Database Entities
 
@@ -78,4 +82,3 @@ ORDER BY
 -- top 3 users
 LIMIT 3
 ```
-
