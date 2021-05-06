@@ -23,7 +23,7 @@ class UserService {
         [userModel.id, userModel.name]
       );
 
-      return newUser;
+      return newUser.rows[0];
     } catch (err) {
       console.error("SQL error in UserService.createUser: ", err.message);
       throw new Error(err);

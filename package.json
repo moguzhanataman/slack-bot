@@ -7,8 +7,12 @@
     "dev": "DEBUG=slack-bot:* nodemon ./bin/www"
   },
   "dependencies": {
+    "@slack/bolt": "^3.3.0",
     "@slack/events-api": "^3.0.0",
+    "@slack/interactive-messages": "^2.0.1",
     "@slack/web-api": "^6.1.0",
+    "axios": "^0.21.1",
+    "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
@@ -16,7 +20,9 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "pg": "^8.6.0"
+    "pg": "^8.6.0",
+    "qs": "^6.5.2",
+    "tsscmp": "^1.0.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
