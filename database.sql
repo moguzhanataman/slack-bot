@@ -1,8 +1,8 @@
 -- Create necessary tables. Refer to [design.md] document for design decisions.
 
--- drop table if exists users;
--- drop table if exists commands;
--- drop table if exists tasks;
+drop table if exists users cascade;
+drop table if exists commands cascade;
+drop table if exists tasks cascade;
 
 create table users(
     id varchar primary key,
@@ -21,5 +21,6 @@ create table tasks(
     id serial primary key,
     command_id integer references commands(id),
     user_id varchar(255) references users(id),
-    value integer
+    value integer,
+    created_at timestamp with time zone
 );
