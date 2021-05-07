@@ -21,11 +21,11 @@ GET /leaderboards
 Represents slack user
 Examples:
 
-| id  | name    |
-| --- | ------- |
-| 1   | oguzhan |
-| 2   | ege     |
-| 3   | kerem   |
+| id (PK) | name    |
+| ------- | ------- |
+| 1       | oguzhan |
+| 2       | ege     |
+| 3       | kerem   |
 
 ### Commands
 
@@ -85,21 +85,26 @@ LIMIT 3
 
 #### SQL Queries
 
-Base query
+Get total points of users by command type final version
 
 ```sql
-SELECT
-users.name,
-commands.name,
-value,
-factor
--- 	sum(factor * value) AS total_points
-
-FROM tasks
-INNER JOIN commands ON commands.id = tasks.command_id
-INNER JOIN users ON (tasks.user_id = users.id)
-WHERE tasks.created_at >= (NOW() - INTERVAL '300 minutes')
--- GROUP BY users.name, commands.name
--- ORDER BY total_points DESC
--- LIMIT 6
+SELECT * FROM (
+	SELECT
+		users.name AS user_name, 
+		commands.name AS cmd_name, 
+		SUM(value * factor) AS total,
+		RANK() OVER (PARTITION BY users.name ORDER BY SUM(value * factor) DESC) AS rnk
+	FROM tasks
+	JOIN commands ON commands.id = command_id 
+	JOIN users ON users.id = user_id
+	GROUP BY users.id, users.name, commands.name
+) AS t
+WHERE rnk = 1
 ```
+
+### Random Notes
+
+Random thoughts and notes.
+
+slack request verification
+postgresql, which activity users most active

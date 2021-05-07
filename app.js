@@ -1,5 +1,5 @@
 require("dotenv").config();
-require("./utils/slack-utils");
+require("./utils/slack-init");
 const express = require("express");
 const slackCommands = require("./slack-commands");
 

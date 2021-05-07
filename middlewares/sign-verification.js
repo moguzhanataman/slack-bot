@@ -1,12 +1,13 @@
 /**
  * Taken from: https://medium.com/@rajat_sriv/verifying-requests-from-slack-using-node-js-69a8b771b704
+ * Slack documentation about how to implement this: https://api.slack.com/authentication/verifying-requests-from-slack
  *
  * This middleware ensures that we are getting commands from Slack.
  * If we don't use this, anyone with correct URL can trigger slash commands.
  */
 const crypto = require("crypto");
 const qs = require("qs");
-// fetch this from environment variables
+
 const slackSigningSecret = process.env.SLACK_SIGNING_SECRET;
 let signVerification = (req, res, next) => {
   let slackSignature = req.headers["x-slack-signature"];

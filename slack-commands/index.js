@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const db = require("../utils/db");
-const signVerification = require("../utils/sign-verification");
+const signVerification = require("../middlewares/sign-verification");
 
 const LeaderboardService = require("../services/leaderboard");
 const leaderboardService = new LeaderboardService();
