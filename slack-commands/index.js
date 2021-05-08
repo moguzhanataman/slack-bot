@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-const db = require("../utils/db");
 const signVerification = require("../middlewares/sign-verification");
 
 const handleTask = require("./handle-task");

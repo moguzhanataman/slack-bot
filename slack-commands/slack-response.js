@@ -18,8 +18,6 @@ function leaderboardResponse(leaderboardData) {
   }
   msg += "```";
 
-  console.log(msg);
-
   return {
     blocks: [
       {
@@ -51,6 +49,6 @@ function ephemeralResponse(msg) {
 
 module.exports = {
   textResponse,
-  markdownResponse: leaderboardResponse,
+  leaderboardResponse,
   ephemeralResponse,
 };

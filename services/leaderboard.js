@@ -4,7 +4,7 @@ const UserPointsAndActivity = require("../models/user-points-and-activity");
 class LeaderboardService {
   /**
    * Get top 3 users by points in last hour and which activity they are most active
-   * @returns {UserPointsAndActivity[]}
+   * @returns {Future<UserPointsAndActivity[]>}
    */
   async getTop3UsersWithHighestPointsInLastHour() {
     const lastXhours = 72;
@@ -54,9 +54,6 @@ class LeaderboardService {
       const activityName = whichActivityUsersAreMostActive.rows.find(
         (byActivity) => byActivity.user_name == element.user_name
       ).cmd_name;
-
-      console.log("element", element);
-      console.log("act", activityName);
 
       top3UsersWithPoints.rows[index].activity_name = activityName;
     }
