@@ -4,7 +4,7 @@ const User = require("../models/user");
 const TaskService = require("../services/task");
 const UserService = require("../services/user");
 const CommandService = require("../services/command");
-const { ephemeralResponse } = require("./response");
+const { ephemeralResponse } = require("./slack-response");
 
 const userService = new UserService();
 const taskService = new TaskService();

@@ -90,12 +90,12 @@ Get total points of users by command type final version
 ```sql
 SELECT * FROM (
 	SELECT
-		users.name AS user_name, 
-		commands.name AS cmd_name, 
+		users.name AS user_name,
+		commands.name AS cmd_name,
 		SUM(value * factor) AS total,
 		RANK() OVER (PARTITION BY users.name ORDER BY SUM(value * factor) DESC) AS rnk
 	FROM tasks
-	JOIN commands ON commands.id = command_id 
+	JOIN commands ON commands.id = command_id
 	JOIN users ON users.id = user_id
 	GROUP BY users.id, users.name, commands.name
 ) AS t
@@ -108,3 +108,9 @@ Random thoughts and notes.
 
 slack request verification
 postgresql, which activity users most active
+
+Printing leaderboard table
+
+| ===== User name ===== | === Points === | Most Active |
+| --------------------- | -------------- | ----------- |
+|                       |                |             |
