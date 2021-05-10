@@ -1,9 +1,8 @@
 const { leaderboardResponse, textResponse } = require("../response");
 const LeaderboardService = require("../../services/leaderboard");
-const leaderboardService = new LeaderboardService();
 
 async function handleLeaderboard(req, res) {
-  const userPointsAndActivities = await leaderboardService.getTop3UsersWithHighestPointsInLastHour();
+  const userPointsAndActivities = await LeaderboardService.getTop3UsersWithHighestPointsInLastHour();
 
   try {
     if (

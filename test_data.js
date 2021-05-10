@@ -1,9 +1,10 @@
 const express = require("express");
+const TaskService = require("./services/task");
 const handleTask = require("./slack/commands/task");
 const router = express.Router();
 
 // Sends predefined list of objects as a seperate task and responds with OK
-router.get("/add-test-data", (req, res) => {
+router.get("/add-test-data", async (req, res) => {
   // Only works in development
   if (req.app.get("env") !== "development") {
     return res.send(500);
@@ -64,7 +65,18 @@ router.get("/add-test-data", (req, res) => {
       text: "10",
       command: "/biking",
     },
-  ].forEach((x) => handleTask({ body: x }, { json: () => {} }));
+  ].forEach(async (x) => {
+    try {
+      const task = await TaskService.createTask(
+        x.user_id,
+        x.user_name,
+        x.command.substring(1),
+        x.text
+      );
+    } catch (err) {
+      console.error("adding test data error", err);
+    }
+  });
   res.send(200);
 });
 

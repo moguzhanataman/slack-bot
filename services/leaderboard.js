@@ -6,7 +6,7 @@ class LeaderboardService {
    * Get top 3 users by points in last hour and which activity they are most active
    * @returns {Future<UserPointsAndActivity[]>}
    */
-  async getTop3UsersWithHighestPointsInLastHour() {
+  static async getTop3UsersWithHighestPointsInLastHour() {
     const lastXhours = 1;
     const top3UsersWithPoints = await db.query(
       `
@@ -64,6 +64,11 @@ class LeaderboardService {
     const result = [];
     for (let index = 0; index < top3UsersWithPoints.rows.length; index++) {
       const element = top3UsersWithPoints.rows[index];
+
+      // Because we use numeric, node-postgres returns string to keep correct
+      // precision in case it's outside Integer.MAX_SAFE_INTEGER
+      element.total_points = parseFloat(element.total_points, 10);
+
       const activityName = whichActivityUsersAreMostActive.rows.find(
         (byActivity) => byActivity.user_name == element.user_name
       ).cmd_name;
@@ -71,6 +76,14 @@ class LeaderboardService {
       element.activity_name = activityName;
       result.push(element);
     }
+
+    // const result = [];
+    // for (let i = 0; i < top3UsersWithPoints.length; ++i) {
+    //   result.push({
+    //     ...top3UsersWithPoints.rows[i],
+    //     ...whichActivityUsersAreMostActive.rows[i],
+    //   });
+    // }
 
     // return [whichActivityUsersAreMostActive.rows, top3UsersWithPoints.rows];
     return result;

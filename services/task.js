@@ -1,37 +1,32 @@
 const db = require("../utils/db");
 const Task = require("../models/task");
+const User = require("../models/user");
+const Command = require("../models/command");
+
 /**
  * Handles task CRUD operations
  */
 class TaskService {
-  /**
-   * Creates new task, return it
-   * @param {Task} taskModel - The task we want to add to database
-   * @returns {Future<Task>} created task
-   */
-  async createTask(taskModel) {
-    try {
-      // EXCLUDED represents the new row that conflicted, we are updating only name column
-      const newTask = await db.query(
-        `
-        INSERT INTO tasks (command_id, user_id, value, created_at)
-        VALUES ($1, $2, $3, $4) 
-        RETURNING *
-        `,
-        [
-          taskModel.command_id,
-          taskModel.user_id,
-          taskModel.value,
-          taskModel.created_at,
-        ]
-      );
+  static async createTask(userId, userName, commandName, value) {
+    // Create user if not exists
+    const user = new User(userId, userName);
+    user.save();
 
-      return newTask.rows[0];
-    } catch (err) {
-      console.error("SQL error in UserService.createUser: ", err.message);
-      throw new Error(err);
-    }
+    // Get command.
+    // TODO: can be improved by caching commands
+    // NOTE: Why not make it an application constant or enum in Postgres?
+    // Because we may want to add/remove/re-name etc. these commands, and this solution gives us that flexibility.
+    const command = await Command.findByName(commandName);
+
+    // Create task
+    const val = parseInt(value, 10);
+    const task = new Task(command.id, user.id, val, new Date());
+    const taskResult = await task.save();
+
+    return taskResult;
   }
+
+  // CRUD operations
 }
 
 module.exports = TaskService;
