@@ -23,6 +23,7 @@ function leaderboardResponse(leaderboardData) {
   msg += "```";
 
   return {
+    response_type: "in_channel",
     blocks: [
       {
         type: "section",
