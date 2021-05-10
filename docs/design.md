@@ -8,11 +8,20 @@ Design decisions about API, Database and Business Logic.
 
 This API is for interacting with slack.
 
-POST /tasks/running { user_id, value }
-POST /tasks/biking { user_id, value }
-GET /leaderboards
+These two endpoints requires some information from Slack, user_id, user_name and text.
+user_id and user_name refers to the user that is posting tasks, text is parameter to the task
+
+- `POST /slack/commands/running` req.body params `{ user_id, user_name, text }`
+
+- `POST /slack/commands/biking` req.body params `{ user_id, user_name, text }`
+
+Sends a markdown formatted leaderboard
+
+- `POST /slack/commands/leaderboard`
 
 ### Private API
+
+- `GET /test/add-test-data` this endpoint allowed in development mode to insert data to database
 
 ## Database Entities
 
@@ -58,31 +67,6 @@ Every completed task generates points for users.
   should have the necessary information that a user should see)
 - It prints this table in the slack channel as a public message
 
-Roughly this SQL gets the necessary information
-
-```sql
-SELECT
-    u.name,
-    factor * sum(value) as total_points
-FROM
-    tasks t
-INNER JOIN
-    commands c ON c.id = t.command_id
-INNER JOIN
-    users u ON u.id = t.user_id
-
--- only last 1 hour
-WHERE
-    t.timestamp >= (NOW() - INTERVAL '1 hour')
-
--- highest to lowest points
-ORDER BY
-    total_points DESC
-
--- top 3 users
-LIMIT 3
-```
-
 #### SQL Queries
 
 Get total points of users by command type final version
@@ -98,6 +82,7 @@ SELECT * FROM (
 	JOIN commands ON commands.id = command_id
 	JOIN users ON users.id = user_id
 	GROUP BY users.id, users.name, commands.name
+    ORDER BY total DESC
 ) AS t
 WHERE rnk = 1
 ```
