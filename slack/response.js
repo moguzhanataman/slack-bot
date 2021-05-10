@@ -11,10 +11,14 @@ const UserPointsAndActivity = require("../models/user-points-and-activity");
  * @returns {Object}
  */
 function leaderboardResponse(leaderboardData) {
-  let msg = "```| ===== User name ===== | === Points === | Most Active |\n| --------------------- | -------------- | ----------- |\n";
+  let msg =
+    "```| ===== User name ===== | === Points === | Most Active |\n| --------------------- | -------------- | ----------- |\n";
   for (let index = 0; index < leaderboardData.length; index++) {
     const element = leaderboardData[index];
-    msg += `| ${element.user_name.padEnd(21)} | ${element.total_points.padEnd(14)} | ${element.activity_name.padEnd(11)} |\n`;
+    const userName = element.user_name.padEnd(21);
+    const totalPoints = element.total_points.toString().padEnd(14);
+    const activityName = element.activity_name.padEnd(11);
+    msg += `| ${userName} | ${totalPoints} | ${activityName} |\n`;
   }
   msg += "```";
 

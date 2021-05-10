@@ -9,10 +9,19 @@ const { ephemeralResponse } = require("../response");
 async function handleTask(req, res) {
   try {
     const { user_id, user_name, text } = req.body;
+
     // ignore leading slash in command name, for example "/running" => "running"
     const commandName = req.body.command.substring(1);
 
-    const taskResult = TaskService.createTask(
+    if (Number.isNaN(parseInt(text))) {
+      res.json(
+        ephemeralResponse(
+          `You have to provide a numerical value after command name ex. '/${commandName} 5'`
+        )
+      );
+    }
+
+    const taskResult = await TaskService.createTask(
       user_id,
       user_name,
       commandName,
@@ -20,13 +29,13 @@ async function handleTask(req, res) {
     );
 
     if (taskResult != null) {
-      console.log("taskResult, value", taskResult);
       res.json(ephemeralResponse(`Got it! ${taskResult.value}`));
     } else {
       res.json(ephemeralResponse(`Can't save task to database`));
     }
   } catch (err) {
-    res.json(ephemeralResponse(`${err}`));
+    console.error(err);
+    res.json(ephemeralResponse(`Server error: ${err}`));
   }
 }
 

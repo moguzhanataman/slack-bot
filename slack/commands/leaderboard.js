@@ -3,7 +3,7 @@ const LeaderboardService = require("../../services/leaderboard");
 
 async function handleLeaderboard(req, res) {
   const userPointsAndActivities = await LeaderboardService.getTop3UsersWithHighestPointsInLastHour();
-
+  console.log("upa", userPointsAndActivities);
   try {
     if (
       userPointsAndActivities == null ||
