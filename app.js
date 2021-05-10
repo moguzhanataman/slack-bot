@@ -1,7 +1,8 @@
 require("dotenv").config();
-require("./utils/slack-init");
+require("./slack/init");
 const express = require("express");
-const slackCommands = require("./slack-commands");
+const slackCommands = require("./slack/commands/index");
+const testAddDataEndpoint = require("./test_data");
 
 const app = express();
 
@@ -15,10 +16,11 @@ app.post("/", (req, res) => {
 });
 
 // Add some data
-app.get('/add', (req, res) => {
-})
+app.get("/add", (req, res) => {});
 
 app.use("/slack/commands", slackCommands);
+
+app.use("/test", testAddDataEndpoint);
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -30,6 +32,5 @@ app.use(function (err, req, res, next) {
   res.json({ error: err.message });
   console.error(err.message, err.stack);
 });
-42
 
 module.exports = app;

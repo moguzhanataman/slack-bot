@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const signVerification = require("../middlewares/sign-verification");
+const signVerification = require("../../middlewares/sign-verification");
 
-const handleTask = require("./handle-task");
-const handleLeaderboard = require("./handle-leaderboard");
+const handleTask = require("./task");
+const handleLeaderboard = require("./leaderboard");
 
 // Ensure requests coming from slack
 router.use("/", signVerification);

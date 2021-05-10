@@ -1,5 +1,5 @@
-const { leaderboardResponse, textResponse } = require("./slack-response");
-const LeaderboardService = require("../services/leaderboard");
+const { leaderboardResponse, textResponse } = require("../response");
+const LeaderboardService = require("../../services/leaderboard");
 const leaderboardService = new LeaderboardService();
 
 async function handleLeaderboard(req, res) {
